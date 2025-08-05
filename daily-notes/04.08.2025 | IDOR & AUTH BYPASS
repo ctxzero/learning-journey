@@ -1,1 +1,57 @@
+# 2025-08-04 | IDOR & Authentication Bypass
 
+---
+
+### About Me: ctxzero
+
+Welcome to my Cybersecurity Learning Journey!  
+I'm ctxzero — aspiring penetration tester documenting my progress one day at a time.  
+This repo contains concise, focused notes on what I’ve practiced, learned, and reflected on.  
+
+---
+
+## 🔍 Topics Covered
+
+### 1. Insecure Direct Object Reference (IDOR)
+
+- IDOR occurs when applications expose direct references to internal objects (e.g., user IDs) without proper authorization checks.
+- By modifying request parameters like `?id=3`, I was able to access other users’ data — a classic IDOR case.
+- 🔑 **New Insight:** Some applications **Base64-encode** their parameters (e.g., `id=Mg==`) to appear less obvious — but decoding them often reveals simple, incrementing values (like `1`, `2`, `3`). A reminder: **obfuscation is not security**.
+
+---
+
+### 2. Authentication Bypass Techniques
+
+Learned and tested various methods to bypass weak authentication mechanisms:
+
+#### 🧪 Bruteforcing
+
+- Tried password bruteforcing against login forms using wordlists.
+- Also experimented with **username enumeration** via subtle response differences — often called **fuzzing** or **user enumeration**.
+
+#### 🧠 Logic Flaws
+
+- Explored how flawed logic in login workflows (e.g., skipping verification steps or misordered checks) can allow bypassing login entirely.
+
+#### 🍪 Cookie Tampering
+
+- Practiced editing cookies to impersonate other users.
+- Found that some cookies were **MD5 hashed values** (like usernames or IDs) — which are **trivial to reverse** using online hash databases or tools like `hashcat`.
+- Key takeaway: **Weak or predictable cookie values = insecure session handling**.
+
+---
+
+## 🧠 What I Learned Today
+
+- Obfuscated parameters (e.g., Base64) should always be decoded and examined.
+- User enumeration and fuzzing are powerful tools to discover valid usernames.
+- Cookie manipulation is often overlooked but can be critical in bypassing authentication.
+- IDOR vulnerabilities remain simple but impactful — and are common in real-world apps.
+
+---
+
+> “Understanding the flaws in logic and structure is the key to breaking through security.” – ctxzero
+
+---
+
+*#pentesting #cybersecurity #learning #ctxzero #authbypass #idor #cookiehacking*
