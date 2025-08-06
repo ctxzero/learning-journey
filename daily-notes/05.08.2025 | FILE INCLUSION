@@ -1,0 +1,83 @@
+# 2025-08-06 | File Inclusion Vulnerabilities: LFI, RFI & Path Traversal – Deep Dive
+
+---
+
+### About Me: ctxzero
+
+Welcome to my Cybersecurity Learning Journey!  
+Today I focused on mastering File Inclusion vulnerabilities, including Local File Inclusion (LFI), Remote File Inclusion (RFI), path traversal, and common bypass techniques in PHP web applications.
+
+---
+
+## 🔍 Topics Covered
+
+### 1. File Inclusion Overview
+
+- **File Inclusion Vulnerabilities** occur when a web app allows user input to control files that are included or required by PHP scripts.  
+- **Local File Inclusion (LFI):** attacker includes files from the local server filesystem (e.g., `/etc/passwd`, config files).  
+- **Remote File Inclusion (RFI):** attacker includes external files via URL, requires `allow_url_fopen` to be enabled on the server.
+
+### 2. Path Traversal Fundamentals
+
+- Path traversal uses sequences like `../` to move up directories and access files outside intended directories.  
+- The goal is to escape the webroot (e.g., `/var/www/html`) to access sensitive files (like `/etc/flag`, `/etc/passwd`).
+
+### 3. Common Filters & Input Sanitization
+
+- Web apps often filter or sanitize user input to prevent path traversal:  
+  - Removal or replacement of `../` with empty strings or other characters.  
+  - Stripping of dots `.` or slashes `/` individually.  
+  - Blocking of digits or certain characters to prevent path formation.  
+  - Appending fixed file extensions like `.php` to included files.  
+- Input filters may only apply to certain HTTP methods (GET vs POST) or input vectors (GET parameters, POST body, Cookies, Headers).
+
+### 4. Bypass Techniques for Filters
+
+- **Encoded Traversal:** Use URL encoding (e.g., `%2e%2e%2f` for `../`) or double encoding to bypass naive filters.  
+- **Alternative Traversal Syntax:** Use sequences like `....//` (4 dots + 2 slashes) that some servers interpret as `../` after normalization.  
+- **Double/triple dots:** Sometimes adding extra dots or slashes confuses filters but PHP resolves path properly.  
+- **Null Byte Injection (`%00`):** Appends a null byte to truncate strings and bypass forced suffixes like `.php` (if PHP version < 5.3 or no proper patch).  
+- **HTTP Method Change:** Switching from GET to POST can bypass filters applied only to GET parameters. Use dev tools or proxies to modify method.  
+- **Input Vector Variation:** Use cookies, headers, or POST data instead of GET if filters are only on URL parameters.  
+- **Character Removal:** Sometimes digits or specific chars are removed—use pure alphabetic inputs or inventive combinations.
+
+### 5. PHP Specific Behaviors
+
+- **`$_REQUEST` superglobal:** merges GET, POST, and COOKIE — useful to test different injection points.  
+- **File extension forced:** If `.php` is appended automatically, try to bypass with `%00` or path tricks.  
+- **Error messages:** Often disclose full server paths, helping to confirm directory structure for traversal.
+
+### 6. Remote File Inclusion (RFI) Essentials
+
+- RFI requires the server’s `allow_url_fopen` to be enabled to include remote files by URL.  
+- Set up your own webserver hosting a PHP shell like:  
+  ```php
+  <?php system($_GET['cmd']); ?>
+  
+- Inject your remote file URL as a parameter to include and execute commands on the target.
+
+- Note: Many modern PHP setups disable RFI by default due to high risk.
+
+---
+
+## 🧠 Key Takeaways
+
+- File Inclusion vulnerabilities remain highly critical in PHP apps — mastering bypasses is essential for exploitation.
+
+- Always test all HTTP methods and input vectors for filters — GET filters might not apply to POST or Cookies.
+
+- %00 null byte injection is a classic but less reliable nowadays; have fallback bypasses ready.
+
+- Alternative traversal sequences like ....// can evade naive sanitization but still get resolved by PHP.
+
+- Error messages provide valuable info on paths, included file locations, and filter effects — never ignore them.
+
+- Setting up a remote PHP shell allows practical RFI exploitation and command execution tests.
+
+---
+
+“Web filters are puzzles — each bypass sharpens your skill.” – ctxzero
+
+---
+
+#fileinclusion #lfi #rfi #pathtraversal #phpsecurity #pentesting #ctxzero #webhacking #security
