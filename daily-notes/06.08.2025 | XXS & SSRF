@@ -1,0 +1,65 @@
+2025-08-07 | Cross-Site Scripting (XSS) & Server-Side Request Forgery (SSRF) – Deep Dive
+
+
+About Me: ctxzero
+
+Welcome back to my Cybersecurity Learning Journey!
+Today I focused on understanding two powerful web vulnerabilities: Cross-Site Scripting (XSS) and Server-Side Request Forgery (SSRF). I explored their types, exploitation techniques, and practical bypasses.
+
+ Topics Covered
+1. Cross-Site Scripting (XSS) Types
+Reflected XSS: Malicious script is reflected immediately from user input in the server response, usually via URL parameters or form fields.
+
+Stored XSS: Payload is permanently stored on the server (e.g., in databases or message boards) and delivered to users when they access infected pages.
+
+DOM-based XSS: Client-side JavaScript unsafely processes user input, causing script execution without involving the server’s response content.
+
+Blind XSS: No immediate visible effect for the user; payload triggers in admin panels, logs, or other out-of-band places — detection requires monitoring or OOB techniques.
+
+2. Exploitation & Bypass Techniques for XSS
+Use of polygons: Complex combinations of encodings (HTML entities, Unicode, URL-encoding) plus multiple script tags to bypass filters.
+
+Leveraging event handlers like onerror=, onload=, or alternative HTML tags (<svg>, <math>) to sneak scripts past naive filters.
+
+Crafting context-aware payloads tailored for injection points in HTML, JavaScript, CSS, or URL contexts.
+
+Fragmented or nested payloads that browsers assemble dynamically, bypassing static filters.
+
+3. Server-Side Request Forgery (SSRF) Basics
+SSRF lets attackers coerce the server into making arbitrary HTTP requests, often targeting internal or protected services.
+
+Common targets include cloud metadata services (http://169.254.169.254/), internal APIs, admin interfaces, or private networks.
+
+SSRF can enable internal network reconnaissance, port scanning, and even remote code execution when chained with other vulnerabilities.
+
+4. SSRF Bypass Techniques & Payloads
+Different IP notations (decimal, octal, hex) and URL encodings to evade filters.
+
+Use of various protocols such as file://, gopher://, or dict:// depending on server handling.
+
+Header injection and manipulation (e.g., changing the Host header) to circumvent restrictions.
+
+Chaining SSRF with other vulnerabilities like RCE or data exfiltration to maximize impact.
+
+5. Best Practices & Monitoring
+Implement whitelists and validation for server-side requests to restrict allowed URLs and IP ranges.
+
+Use Content Security Policy (CSP) to mitigate XSS risks in browsers.
+
+Continuously monitor logs for unusual SSRF patterns or unexpected internal requests.
+
+Test all input vectors including GET, POST, headers, and cookies.
+
+🧠 Key Takeaways
+XSS exists in many forms — each demands specific payloads and bypass techniques.
+
+Polygons and mixed encoding approaches are powerful to bypass filters and WAFs.
+
+SSRF is especially dangerous in cloud environments due to exposure of internal services.
+
+A solid understanding of contexts and server environment greatly improves exploitation success.
+
+
+“Understanding XSS and SSRF opens doors to both offense and defense in web security.” – ctxzero
+
+#xss #domxss #blindxss #storedxss #ssrf #websecurity #pentesting #bugbounty #ctxzero #webhacking
