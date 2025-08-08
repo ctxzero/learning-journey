@@ -1,0 +1,41 @@
+# 📅 2025-08-08 | Race Conditions, HTTP Methods & Burp Suite Intruder – Practical Exploitation
+
+## 👤 About Me: ctxzero
+
+Welcome back to my Cybersecurity Learning Journey!  
+Today’s focus was on **Race Condition vulnerabilities**, understanding how **HTTP methods** like `GET`, `POST`` work, and putting theory into practice with **Burp Suite**, especially using **Reapeter** for exploiting timing-based flaws in web applications.
+
+---
+
+## 🧠 Topics Covered
+
+### 🔁 Race Conditions in Web Applications
+- Race conditions occur when multiple processes access shared data concurrently, leading to unexpected behavior.
+- These flaws are time-dependent and can allow repeated actions like:
+  - Transferring money multiple times by exploiting the time gap between validation and action.
+  - Applying discount codes more than once before the “applied” state is set.
+
+### 🌐 Web Application Architecture & States
+- Reviewed the **Client-Server Model** and **Three-tier architecture** (Presentation, Application, Data).
+- Identified multiple states in web application logic, like:
+  - `Checking Balance`
+  - `Validating Coupon`
+  - `Recalculating Total`
+- These hidden states can introduce timing windows exploitable via race conditions.
+
+
+### 🛠️ Burp Suite: Repeater
+- Captured and analyzed requests using **Burp Proxy**.
+- Used **Repeater** to test single requests and check application behavior & launch multiple **parallel requests** for race condition exploitation.
+- Managed cookies and headers manually to ensure session persistence.
+
+---
+
+## 📝 Key Takeaways
+- Race conditions can exist in simple banking or e-commerce logic.
+- **Burp Repeater** is essential for parallel/timed attacks.
+
+---
+
+✅ Logged by: ctxzero  
+🕸️ Happy Hacking!
