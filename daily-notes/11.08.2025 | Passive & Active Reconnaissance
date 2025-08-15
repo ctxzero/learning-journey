@@ -101,7 +101,7 @@ Recon is split into two main types:
 
 **Phase 1 – Passive (stealthy)**  
 - Collect domain info → WHOIS  
-- DNS queries → NSLOOKUP / DIG (A, MX, TXT)  
+- DNS queries → NSLOOKUP / DIG (A, AAAA, MX, TXT)  
 - Find subdomains → DNSDumpster  
 - Check public services → Shodan.io  
 - Organize data → tables / mindmaps  
