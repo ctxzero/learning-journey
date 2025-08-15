@@ -1,0 +1,155 @@
+# 2025-08-08 | SQL Injection & Command Injection – Deep Dive
+
+---
+
+### About Me: ctxzero
+
+Today I focused on **SQL Injection**, covering Blind, Boolean-Based, Time-Based, In-Band, and Out-of-Band techniques.  
+After that, I explored **Command Injection** to understand how attackers can execute OS commands through web applications.
+
+---
+
+## 🔍 SQL Injection (SQLi)
+
+### 1. What is SQL Injection?
+- Happens when user input is used directly in SQL queries without filtering.  
+- Attackers can:
+  - Bypass authentication
+  - Read or modify data
+  - Explore the database structure
+
+---
+
+### 2. Blind SQL Injection
+- Results are not directly visible.
+- Small feedback (true/false) is enough to enumerate the database.
+- Example: Authentication bypass in login forms:
+  select * from users where username='%username%' and password='%password%' LIMIT 1;
+- Payload: `' OR 1=1;--`  
+  → Makes the query always TRUE, login is bypassed.
+
+---
+
+### 3. Boolean-Based SQL Injection
+- Works with queries returning only true/false.
+- Example: API checking username availability:
+  https://website.thm/checkuser?username=admin
+- Response: {"taken":true} → username exists  
+- Use UNION SELECT to find number of columns:
+  admin123' UNION SELECT 1,2,3;--  
+- Then enumerate database name, tables, columns, and even usernames/passwords by trying characters sequentially.
+
+---
+
+### 4. Time-Based Blind SQL Injection
+- Similar to Boolean-Based but uses query execution time to detect success.
+- Uses SLEEP(x) function in MySQL:
+  admin123' UNION SELECT SLEEP(5),2;--
+- Delay indicates injection is successful.
+- Can enumerate databases like Boolean-Based, using timing as feedback.
+
+---
+
+### 5. In-Band SQL Injection
+- Uses the same channel for attack and data retrieval.
+- **Error-Based:** Trigger DB errors to get info.
+- **Union-Based:** Use UNION SELECT to merge attacker-controlled query with original output.
+- Workflow:
+  1. Test columns with 1,2,3… until no error.
+  2. Use UNION SELECT 1,2,database() to get DB name.
+  3. List tables: UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema='dbname'
+  4. List columns and extract usernames/passwords with group_concat.
+
+---
+
+### 6. Out-of-Band SQL Injection
+- Less common; requires special DB functions or app behavior.
+- Uses a second channel to receive results (DNS/HTTP to attacker server).
+- Steps:
+  1. Send payload to vulnerable site.
+  2. Payload triggers external request with DB info.
+  3. Monitor your server to capture the data.
+
+---
+
+## 🔍 Command Injection
+
+### 1. What is Command Injection?
+- Vulnerability that lets attackers run OS commands through a web app.
+- Commands run with the program’s privileges (e.g., user "joe").
+
+---
+
+### 2. Why it’s dangerous
+- Can access sensitive files and data.
+- May gain full system control (RCE).
+- Often leads to Remote Code Execution.
+
+---
+
+### 3. How it happens
+- User input is passed unchecked to OS commands.
+- Example in PHP:
+  $title = $_GET['title'];  
+  shell_exec("grep $title songtitle.txt");
+- Attacker can input: `rock; cat /etc/passwd` to read sensitive files.
+
+---
+
+### 4. Detection in Pentesting
+- Test input fields with special characters: ; & |  
+- Try appending commands: `; whoami`, `&& ls`  
+- Watch for unexpected output.
+
+---
+
+### 5. Protection
+- **Input Sanitization:** allow only certain characters, filter special chars.  
+  PHP example: $title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING);
+- **Whitelist:** check against allowed patterns.  
+  PHP example: if (preg_match('/^[0-9]+$/', $_GET['id'])) { … }
+- **Avoid direct shell execution:** use safe functions without shell=True (Python).  
+  Python example:  
+  ```python
+  subprocess.run([cmd], capture_output=True)
+  ```
+
+---
+
+### 6. Dangerous PHP functions
+- exec()  
+- passthru()  
+- system()  
+- shell_exec()
+
+---
+
+### 7. Filter Bypass
+- Attackers use hex/unicode (e.g., \x22 instead of ") to bypass filters.
+
+---
+
+### 8. Safe Python execution example
+```python
+import subprocess
+
+def safe_run(cmd):
+    result = subprocess.run([cmd], capture_output=True, text=True)
+    return result.stdout
+```
+
+---
+
+### Key Takeaways
+- Always check if user input is passed to OS commands.  
+- Test special characters and known payloads.  
+- Protection requires input validation, whitelisting, and safe execution methods.  
+- Both SQLi and Command Injection can lead to full system compromise if unchecked.
+
+---
+
+“Small feedback is enough to crack a database one character at a time — and one careless input can run any command.” – ctxzero
+
+---
+
+#sqli #blind #boolean #timebased #inband #outofband #commandinjection #pentesting #webhacking #ctxzero #security
