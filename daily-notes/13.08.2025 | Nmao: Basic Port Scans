@@ -1,0 +1,54 @@
+# 2025-08-13 | Nmap – Basic Port Scans & Scan Options
+
+---
+
+### About Me: ctxzero
+
+Today I expanded my Nmap skills: **basic port scans**, scan order, verbosity, speed, and common options for targeted scanning.  
+Knowing these options makes your scans more efficient and controlled.
+
+---
+
+## 🔍 Basic Nmap Scan Types
+
+| Scan Type | Command | Notes |
+|-----------|---------|-------|
+| TCP Connect Scan | `nmap -sT MACHINE_IP` | No root required, full TCP handshake |
+| TCP SYN Scan | `sudo nmap -sS MACHINE_IP` | “Half-open” scan, stealthy, requires root |
+| UDP Scan | `sudo nmap -sU MACHINE_IP` | Unreliable due to UDP behavior |
+
+> These scan types help you discover running TCP and UDP services on a target host.
+
+---
+
+## 🔍 Common Nmap Options
+
+| Option | Purpose |
+|--------|---------|
+| `-p-` | Scan all ports |
+| `-p1-1023` | Scan ports 1 to 1023 |
+| `-F` | Scan 100 most common ports |
+| `-r` | Scan ports in consecutive order (no randomization) |
+| `-v` | Verbose output → see scan progress/details |
+| `-T0` to `-T5` | Scan timing templates: T0 = slowest, T5 = fastest |
+| `--max-rate 50` | Limit packets/sec ≤ 50 |
+| `--min-rate 15` | Minimum packets/sec ≥ 15 |
+| `--min-parallelism 100` | At least 100 probes in parallel |
+
+---
+
+## ✅ Key Takeaways
+
+- Use **`-r`** to scan ports in order → easier to track  
+- **`-v`** gives feedback during scan → good for long scans  
+- **Timing templates (-T0 to -T5)** balance speed vs. stealth  
+- **Port ranges (-p)** let you target specific or all ports  
+- **Rate limits and parallelism** help avoid overwhelming networks or triggering IDS  
+
+---
+
+“Scan smart, not just fast — control the order, speed, and feedback of your probes.” – ctxzero
+
+---
+
+#nmap #portscan #tcp #udp #sT #sS #sU #scanoptions #pentesting #ctxzero #networksecurity
