@@ -1,0 +1,127 @@
+# 2025-08-11 | Reconnaissance – Passive & Active Overview
+
+---
+
+### About Me: ctxzero
+
+Today I focused on **reconnaissance**, gathering information about a target to find weaknesses or plan an attack.  
+Recon is split into two main types:
+
+- **Passive Recon:** Collect info **without interacting** with the target (e.g., public databases, search engines).  
+- **Active Recon:** Send **direct requests** to the target system (more accurate, but higher chance of being detected).
+
+---
+
+## 🕵 Passive Recon – Key Tools
+
+1. **WHOIS**  
+   - **What:** Shows domain registration info (Registrar, Nameserver, Registrant, Expiry).  
+   - **Use:** Find DNS servers, possible email addresses.  
+   - **Example:**  
+     ```
+     whois tryhackme.com
+     ```
+
+2. **NSLOOKUP**  
+   - **What:** Query DNS records.  
+   - **Record Types:**  
+     - AAAA → IPv6 address  
+     - A → IPv4 address  
+     - MX → Mail servers  
+     - TXT → SPF, DKIM, etc.  
+   - **Example:**  
+     ```
+     nslookup -type=MX tryhackme.com
+     ```
+
+3. **DIG**  
+   - **What:** Similar to nslookup, more detailed.  
+   - **Example:**  
+     ```
+     dig tryhackme.com TXT
+     ```
+
+4. **DNSDumpster (online)**  
+   - **What:** Finds subdomains, IPs, DNS relationships.  
+   - **Use:** Map network, discover forgotten services.
+
+5. **Shodan.io**  
+   - **What:** Search engine for internet-connected devices.  
+   - **Use:** Discover open ports, services, versions **without scanning yourself**.  
+   - **Example:**  
+     ```
+     hostname:"tryhackme.com" port:22 country:"DE"
+     ```
+
+---
+
+## ⚡ Active Recon – Key Tools
+
+1. **Ping**  
+   - **What:** ICMP echo requests to check host availability.  
+   - **Linux/macOS:** `ping -c 10 10.10.199.239`  
+   - **Windows:** `ping -n 10 10.10.199.239` (-n = number of requests)
+
+2. **Traceroute / Tracert**  
+   - **What:** Shows network path (router hops) to the target.  
+   - **Use:** Understand network topology, detect firewalls.  
+   - **Example:**  
+     ```
+     traceroute 10.10.199.239
+     tracert 10.10.199.239
+     ```
+
+3. **Telnet**  
+   - **What:** Test connection to a specific port.  
+   - **Use:** Check if port is open and which service responds.  
+   - **Example:**  
+     ```
+     telnet 10.10.199.239 80
+     ```
+
+4. **NC (Netcat)**  
+   - **Client Mode:**  
+     ```
+     nc 10.10.199.239 80
+     ```  
+     Test port connection, send data.  
+   - **Server Mode:**  
+     ```
+     nc -lvnp 4444
+     ```  
+     Open listener on port 4444.
+
+5. **Web Browser (DevTools)**  
+   - **What:** Inspect HTML, JS, API calls, network requests.  
+   - **Use:** F12 → Network tab for analysis.
+
+---
+
+## 🔗 Recon Kill Chain – Combining Passive & Active
+
+**Phase 1 – Passive (stealthy)**  
+- Collect domain info → WHOIS  
+- DNS queries → NSLOOKUP / DIG (A, MX, TXT)  
+- Find subdomains → DNSDumpster  
+- Check public services → Shodan.io  
+- Organize data → tables / mindmaps  
+
+**Phase 2 – Active (targeted)**  
+- Test host reachability → Ping  
+- Analyze network path → Traceroute / Tracert  
+- Test port reachability → Telnet / NC  
+- Grab service banners → NC  
+- Web app analysis → DevTools  
+
+**Why this order?**  
+- Start quietly (Phase 1) to gather info **without triggering alarms**.  
+- Move to active testing only when you have a clear picture of the target.  
+- Reduces network noise and risk of being blocked.
+
+---
+
+“Start silent, observe carefully, then act with precision.” – ctxzero
+
+---
+
+#recon #passiverecon #activerecon #whois #nslookup #dig #dnsdumpster #shodan #ping #traceroute #telnet #nc #devtools #pentesting #ctxzero #security
