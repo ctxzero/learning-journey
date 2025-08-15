@@ -1,0 +1,125 @@
+# 2025-08-12 | Nmap – Live Host Discovery
+
+---
+
+### About Me: ctxzero
+
+Today I focused on **Nmap host discovery** and network basics.  
+Learning how to find **live hosts**, check **open ports**, and understand network structures is essential before scanning for vulnerabilities.
+
+---
+
+## 🔍 Ports & Protocols (Basics)
+
+- **Port = door to a house** (house = IP address, door = port number)  
+- Different doors → different services  
+
+Examples:  
+- Port 80 (TCP) → HTTP (web server, e.g., Apache/Nginx)  
+- Port 443 (TCP) → HTTPS (HTTP over TLS/SSL)  
+- Port 22 (TCP) → SSH (remote login)  
+
+**Why it matters:** Knowing the service tells you what kind of attacks are possible.
+
+---
+
+## 🔍 ICMP, Ping & Ping Scans
+
+- **ICMP (Internet Control Message Protocol):** network diagnostic messages  
+- **Ping:** sends ICMP Echo Request to check if a host is reachable  
+- **Ping-Scan in Nmap (-sn):** checks which IPs are alive  
+
+**TCP/UDP Ping:**  
+- TCP Ping → send TCP packets to a port (e.g., 80)  
+- Advantage → bypasses firewalls that block ICMP  
+
+**Scans that don’t require root/admin:**  
+- TCP Connect Scan (-sT) → OS handles connection, no raw packets needed  
+
+---
+
+## 🔍 ARP Scan (Local Network Only)
+
+- **ARP = Address Resolution Protocol**  
+- Maps IPs to MAC addresses in the local subnet  
+- Faster & more reliable than ICMP ping in LAN  
+- Nmap automatically does ARP when scanning local IPs  
+
+---
+
+## 🔍 Subnets & CIDR (/29, /30, etc.)
+
+- IPv4 = 32 bits (e.g., 192.168.1.10)  
+- `/X` = bits reserved for network  
+- Remaining bits → host addresses  
+- Formula: `2^(hostbits) - 2` = usable hosts  
+
+Examples:  
+- /29 → 3 host bits → 2^3 - 2 = 6 hosts  
+- /30 → 2 host bits → 2^2 - 2 = 2 hosts  
+- /16 → 16 host bits → 2^16 - 2 = 65534 hosts  
+
+**Why not 0 or 1?** First IP = network, last IP = broadcast, cannot assign.
+
+---
+
+## 🔍 Broadcast & Why It Matters
+
+- **Broadcast address** = message to all hosts in subnet  
+- Example: 192.168.1.255 (/24) → packet to everyone  
+- Useful for network discovery, but noisy → triggers IDS/IPS
+
+---
+
+## 🔍 Practical Pentesting Flow
+
+- You are inside a network → want to see what else is alive:  
+
+1. ARP scan → find all devices in LAN quickly  
+2. Ping scan / TCP ping → check hosts that block ICMP  
+3. Nmap port scan → find open ports (e.g., `nmap -sS -p- IP`)  
+4. Analyze services → find potential exploits  
+
+---
+
+## ✅ Key Takeaways
+
+- **Ports:** doors for services → know which service is running  
+- **ICMP/Ping:** quick reachability test, often blocked  
+- **ARP:** LAN-only, fast & reliable  
+- **CIDR (/XX):** network size → know how many IPs to scan  
+- **Broadcast:** single IP for all hosts → useful but detectable  
+
+**Pentest rule:** discover network → find services → exploit vulnerabilities
+
+---
+
+## 🔍 Ping Scans – Why?
+
+- Check if IP is alive before scanning → saves time  
+- Ping = “Hello, are you there?”  
+- Reply → host online, no reply → offline or blocks pings  
+
+**Ping types in Nmap:**  
+- `-PE` → ICMP Echo Request (root needed)  
+- `-PP` → ICMP Timestamp Request (root)  
+- `-PM` → ICMP Address Mask Request (root)  
+- `-PS<port>` → TCP SYN ping (no root)  
+- `-PA<port>` → TCP ACK ping (no root)  
+- `-PU<port>` → UDP ping (root)  
+- `-PR` → ARP request in LAN (root)  
+
+**Root vs No Root:**  
+- Root → raw packets  
+- No root → TCP pings via connect()  
+- ARP ping → LAN only  
+
+**Rule of thumb:** ping first → then port scan → saves time
+
+---
+
+“First find the hosts, then find the doors, then find the keys.” – ctxzero
+
+---
+
+#nmap #hostdiscovery #ping #arp #cidr #broadcast #ports #network #pentesting #ctxzero #security
