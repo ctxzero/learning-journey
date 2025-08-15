@@ -1,0 +1,40 @@
+# 2025-08-09 | Burp Suite Repeater
+
+---
+
+### About Me: ctxzero
+
+Today I worked with **Burp Suite Repeater**.  
+It’s super handy for pentesting because you can **take any request you captured in Proxy and resend it multiple times**, tweak stuff, and see how the server reacts.
+
+---
+
+## 🔍 Key Points
+
+- **Resend requests:** Capture a request in Burp Proxy and send it to Repeater.  
+- **Modify parameters:** Change GET/POST data, headers, cookies, etc.  
+- **Observe responses:** Check status codes, output, or errors to see how the server handles your input.  
+- **Test manually:** Perfect for SQLi, XSS, Command Injection, authentication bypasses.  
+- **Iterate quickly:** Small tweaks, repeated requests, fast learning.
+
+---
+
+### Practical Tips
+
+- Always start with the request exactly as it was captured, then change one thing at a time.  
+- Keep an eye on response differences — even small changes can reveal vulnerabilities.  
+- Use it alongside Burp Proxy for live capture or Intruder for fuzzing later.  
+
+---
+
+### Key Takeaways
+
+- Repeater = your manual playground for web requests.  
+- Send → change → observe → repeat.  
+- Helps you **understand how the server reacts** to different inputs.  
+- Essential for hands-on pentesting practice.
+
+---
+
+
+#burpsuite #repeater #manualpentest #webhacking #ctxzero #security #pentesting
