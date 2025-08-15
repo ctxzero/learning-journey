@@ -1,0 +1,61 @@
+# 2025-08-10 | Burp Suite Intruder, Other Modules & Extensions
+
+---
+
+### About Me: ctxzero
+
+Today I explored more of **Burp Suite**, diving into **Intruder**, some of the lesser-known modules, and **extensions**.  
+It’s all about automating attacks, testing payloads, and customizing your workflow.
+
+---
+
+## 🔍 Burp Suite Intruder
+
+- **Purpose:** Automates sending lots of requests with varying payloads.  
+- **Use cases:**  
+  - Bruteforcing logins  
+  - Testing parameter injection (SQLi, XSS, Command Injection)  
+  - Fuzzing inputs  
+- **How it works:**  
+  1. Capture a request in Proxy or Repeater  
+  2. Send it to Intruder  
+  3. Define positions (placeholders where payloads go)  
+  4. Load or generate payloads  
+  5. Start attack and monitor responses  
+- **Practical tip:** Always start with a small set of payloads to test logic before doing full-scale attacks.
+
+---
+
+## 🔍 Other (Lesser-Known) Modules
+
+- Burp has modules you don’t always use daily:  
+  - **Comparer:** Compare responses to spot subtle differences  
+  - **Decoder:** Encode/decode payloads in different formats  
+  - **Sequencer:** Analyze randomness of tokens or session IDs  
+- Useful for **digging deeper into the app** and understanding data flows or security mechanisms.
+
+---
+
+## 🔍 Extensions
+
+- Burp allows **extensions/plugins** to extend functionality.  
+- Written in Java, Python (Jython), or Ruby.  
+- Can automate repetitive tasks, add scanners, or custom logging.  
+- Practical usage:  
+  - Import an extension from the BApp Store  
+  - Configure settings  
+  - Use it to enhance testing (e.g., custom scanners or reporting tools)  
+
+---
+
+### Key Takeaways
+
+- **Intruder** is your go-to for automated testing of inputs.  
+- **Other modules** like Comparer, Decoder, Sequencer help uncover subtle issues.  
+- **Extensions** let you customize Burp to fit your workflow perfectly.  
+- Combining manual tools (Proxy, Repeater) with automation and extensions makes pentesting much more efficient.
+
+---
+
+
+#burpsuite #intruder #modules #extensions #pentesting #webhacking #ctxzero #security
